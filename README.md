@@ -16,6 +16,17 @@ Database
 5. Add it to top of Makefile, by default it's root;
 6. Do a `make`.
 
+Use squelize
+============
+
+Package squelize, squelize-cli & mysql2 allow use to create model for express app.
+
+The file conf/config.json contain configuration for database and for squelize:
+
+`
+
+`
+
 Install & start
 ===============
 

@@ -5,10 +5,10 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-//var index = require('./routes/index');
-//var users = require('./routes/users');
+var fakeUsers = require('./config/fakeUsers.js');
 
 var app = express();
+app.use(logger('dev'));
 
 // view engine setup
 app.engine('ejs', require('ejs-locals'));
@@ -31,7 +31,7 @@ require('./app/routes/secure')(secure);
 app.use('/', secure);
 
 var auth = express.Router();
-require('./app/routes/auth')(auth);
+require('./app/routes/auth')(auth, fakeUsers);
 app.use('/auth', auth);
 
 

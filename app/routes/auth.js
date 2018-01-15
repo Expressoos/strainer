@@ -12,32 +12,50 @@ module.exports = function(router, fakeUsers){
     });
 
     router.get('/login', function(req, res){
+      console.log('login req.session.email : ' + req.session.email);
+      if (req.session.email == 'aa' && req.session.password == 'aa'){
 
-        res.render('auth/login.ejs');
+          res.redirect('/dashboard');
+      }
+
+      res.render('auth/login.ejs');
     });
 
     router.post('/login', function(req, res){
+      var msg = '';
 
-      console.log(fakeUsers.user);
+      if(req.body.email != 'undefined' && req.body.email != ''){
 
+      }
 
-      //console.log('ok');
+      if (req.body.email == 'aa' && req.body.password == 'aa'){
 
-      //console.log(req);
+        var email = req.body.email;
+        var password = req.body.password;
+
+        /*var q = db.query("SELECT * FROM `users` WHERE `email`='" + req.params.email + "' AND `password`='" + req.params.password + "'");
+        if (q) {
+          // Set the sessions.
+          req.session.email = req.params.email;
+          req.session.password = req.params.password;
+        }*/
+        req.session.email = email;
+        req.session.password = password;
+
+        res.redirect('/dashboard');
+
+      } else {
+        console.log('**** vide');
+      }
 
       res.render('auth/login.ejs');
-            /*successRedirect: '/profile',
-            failureRedirect: '/login',
-            failureFlash: true
-            */
     });
 
-
-
-
     router.get('/logout', function(req, res){
-        req.logout();
-        req.flash('success_msg', 'You are logged out !');
+
+        console.log('logout');
+        //req.logout();
+        req.session = null;
 
         res.redirect('/');
     });

@@ -1,16 +1,18 @@
-HOST     := localhost
 LOGIN    := root
 PASSWORD := root
+HOST := localhost
 DATABASE := database_development
 
 all: install start
 
-install: config/index.js config/config.json npm/install database-all
+install: config npm/install database-all
+
+config: config/index.js config/config.json 
 	
 npm/%:
 	npm $*
 
-reinstall: db/drop clear/config/index.js clear/config/config.json clear/node_modules install
+reinstall: database-clean clear/config/index.js clear/config/config.json clear/node_modules install
     
 start restart:
 	DEBUG=strainer:* npm start
@@ -29,10 +31,13 @@ config/config.json: config/config.json.dist
 	sed -i '' 's/DATABASE/$(DATABASE)/g' $@
 
 database-all: db/create db/migrate db/seed
+	
+database-clean: 
+ifneq ("$(wildcard config/config.json)","")
+	$(MAKE) db/drop
+endif
 
-database: db/create db/migrate db/seed
-
-db/%: db/create | config/config.json
+db/%:
 	node_modules/.bin/sequelize db:$* $(ARGS)
 
 migration/%:

@@ -49,7 +49,7 @@ require('./app/routes/auth')(auth, fakeUsers);
 app.use('/auth', auth);
 
 var secure = express.Router();
-require('./app/routes/secure')(secure);
+require('./app/routes/secure')(secure, fakeUsers);
 app.use('/', secure);
 
 // catch 404 and forward to error handler

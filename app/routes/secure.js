@@ -1,3 +1,5 @@
+var fakeData = require('../../config/fakeData');
+
 module.exports = function(router){
 
   /**
@@ -19,7 +21,8 @@ module.exports = function(router){
 
   router.get('/dashboard', function(req, res){
 
-    res.render('secured/dashboard.ejs');
+    console.log(fakeData);
+    res.render('secured/dashboard.ejs', {data: fakeData});
   });
 
   router.get('/*', function(req, res){

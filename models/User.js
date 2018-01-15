@@ -1,54 +1,46 @@
-var Sequelize = require('sequelize'),
-    bcrypt = require('bcrypt');
+'use strict';
+module.exports = (sequelize, DataTypes) => {
 
-var config = require('../config'),
-    db = require('../services/database');
-
-// 1: The model schema.
-var modelDefinition = {
+  var User = sequelize.define('User', {
+    first_name: DataTypes.STRING,
+    last_name: DataTypes.STRING,
+    bio: DataTypes.TEXT,
     username: {
-        type: Sequelize.STRING,
+        type: DataTypes.STRING,
         unique: true,
         allowNull: false
     },
-
-    password: {
-        type: Sequelize.STRING,
+    email: {
+        type: DataTypes.STRING,
+        unique: true,
         allowNull: false
-    }
-};
-
-// 2: The model options.
-var modelOptions = {
-    instanceMethods: {
-        comparePasswords: comparePasswords
     },
-    hooks: {
-        beforeValidate: hashPassword
+    password: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    createdAt: {
+      type: DataTypes.DATE(3),
+      field: 'createdAt',
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3)'),
+    },
+    updatedAt: {
+      type: DataTypes.DATE(3),
+      field: 'updatedAt',
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)'),
     }
+  }, {
+    timestamps: true,
+
+    hooks: (user) => {
+	     if(user.changed('password')) {
+	        return bcrypt.hash(user.password, 10).then(function(password) {
+	            user.password = password;
+	        });
+	    }
+	}
+  }
+  });
+
+  return User;
 };
-
-// 3: Define the User model.
-var UserModel = db.define('user', modelDefinition, modelOptions);
-
-// Compares two passwords.
-function comparePasswords(password, callback) {
-    bcrypt.compare(password, this.password, function(error, isMatch) {
-        if(error) {
-            return callback(error);
-        }
-
-        return callback(null, isMatch);
-    });
-}
-
-// Hashes the password for a user object.
-function hashPassword(user) {
-     if(user.changed('password')) {
-        return bcrypt.hash(user.password, 10).then(function(password) {
-            user.password = password;
-        });
-    }
-}
-
-module.exports = UserModel;

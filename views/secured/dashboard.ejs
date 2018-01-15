@@ -12,23 +12,19 @@
     <td>Action</td>
   </tr>
 
+  <% data.forEach(function(post) { %>
   <tr>
     <td with="50%">
-      <%= data[1].title %>
+      <%= post.title %>
     </td>
     <td with="30%">
-      <%= data[1].text %>
+      <%= post.text %>
     </td>
     <td>
-      <!-- Contextual button for informational alert messages -->
-      <a href="/read/1" class="btn btn-info" role="button">Read</a>
-
-      <!-- Indicates caution should be taken with this action -->
-      <a href="" class="btn btn-warning" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-
-      <!-- Indicates a dangerous or potentially negative action -->
-      <a href="" class="btn btn-danger" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+      <a href="/read/<%= post.id %>" class="btn btn-info" role="button">Read</a>
+      <a href="/modify/<%= post.id %>" class="btn btn-warning" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+      <a href="/delete/<%= post.id %>" class="btn btn-danger" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
     </td>
   </tr>
-
+  <% }); %>
 </table>

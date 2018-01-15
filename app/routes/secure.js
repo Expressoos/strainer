@@ -26,21 +26,20 @@ module.exports = function(router){
   router.get('/read/:id', function(req, res){
     var id = req.params.id;
 
-    console.log(fakeData[id]);
     res.render('secured/post/read.ejs', {data: fakeData[id]});
   });
 
   router.get('/modify/:id', function(req, res){
-    var id = request.params.id;
+    var id = req.params.id;
 
-    console.log(fakeData[id]);
     res.render('secured/post/modify.ejs', {data: fakeData[id]});
   });
 
+  router.get('/delete/:id', function(req, res){
+    var id = req.params.id;
 
-
-
-
+    res.render('secured/post/delete.ejs', {data: fakeData[id]});
+  });
 
   router.get('/*', function(req, res){
 

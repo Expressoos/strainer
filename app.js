@@ -1,4 +1,5 @@
 var express = require('express');
+var cookieSession = require('cookie-session');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
@@ -20,6 +21,15 @@ var fakeUsers = require('./config/fakeUsers.js');
 var app = express();
 app.use(logger('dev'));
 
+/* Pour les cookies */
+app.use(cookieSession({
+  name: 'session',
+  secure: false,
+  keys: [''],
+  httpOnly: false,
+  maxAge: 1 * 60 * 60 * 1000 // 1 hours
+}));
+
 // view engine setup
 app.engine('ejs', require('ejs-locals'));
 app.set('views', path.join(__dirname, 'views'));
@@ -29,21 +39,18 @@ app.set('view engine', 'ejs');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-//app.use('/', index);
-//app.use('/users', users);
-
-var secure = express.Router();
-require('./app/routes/secure')(secure);
-app.use('/', secure);
 
 var auth = express.Router();
 require('./app/routes/auth')(auth, fakeUsers);
 app.use('/auth', auth);
 
+var secure = express.Router();
+require('./app/routes/secure')(secure, fakeUsers);
+app.use('/', secure);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -22,6 +22,7 @@ config/index.js: config/index.js.dist
 	sed -i '' 's/HOST/$(HOST)/g' $@
 	sed -i '' 's/LOGIN/$(LOGIN)/g' $@
 	sed -i '' 's/PASSWORD/$(PASSWORD)/g' $@
+	sed -i '' 's/DATABASE/$(DATABASE)/g' $@
 
 config/config.json: config/config.json.dist
 	cp $< $@
@@ -30,7 +31,7 @@ config/config.json: config/config.json.dist
 	sed -i '' 's/PASSWORD/$(PASSWORD)/g' $@
 	sed -i '' 's/DATABASE/$(DATABASE)/g' $@
 
-database-all: db/create db/migrate db/seed
+database-all: db/create db/migrate seed/all
 	
 database-clean: 
 ifneq ("$(wildcard config/config.json)","")
@@ -39,6 +40,9 @@ endif
 
 db/%:
 	node_modules/.bin/sequelize db:$* $(ARGS)
+
+seed/%:
+	node_modules/.bin/sequelize db:seed:$* $(ARGS)
 
 migration/%:
 	node_modules/.bin/sequelize migration:$* $(ARGS)

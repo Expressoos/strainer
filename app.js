@@ -4,6 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mysql      = require('mysql');
+var config      = require('./config');
+
+var connection = mysql.createConnection({
+  host     : config.database.host,
+  user     : config.database.user,
+  password : config.database.password
+});
+
+connection.connect();
 
 var index = require('./routes/index');
 var users = require('./routes/users');

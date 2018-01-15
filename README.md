@@ -16,6 +16,36 @@ Database
 5. Add it to top of Makefile, by default it's root;
 6. Do a `make`.
 
+TIPS:
+
+	`make mysql` allow you to go through CLI on mysql.
+Use squelize
+============
+
+Package squelize, squelize-cli & mysql2 allow use to create model for express app.
+
+The file conf/config.json contain configuration for database and for squelize:
+
+```
+	make db/PREFIX:COMMAND ARGS="--name User"
+```
+
+Generate a migration
+===================
+
+Migration allow us to update database by adding new column
+
+
+```
+	make migration/generate ARGS="--name add-email-password"
+```
+
+After editing, we can play it by using
+
+```
+	make db/migrate
+```
+
 Install & start
 ===============
 
@@ -25,8 +55,13 @@ Command
 =======
 
 make reinstall
+
 make stop
+
 make start
+
 make restart
+
+
 
 Are all command eponyme of its functionnality :)

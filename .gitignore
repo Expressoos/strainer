@@ -20,6 +20,7 @@ package-lock.json
 *.gz
 
 config/index.js
+config/config.json
 
 # Coveralls
 coverage

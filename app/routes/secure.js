@@ -1,5 +1,4 @@
 var fakeData = require('../../config/fakeData');
-var database = require('../../services/database')
 
 module.exports = function(router){
 

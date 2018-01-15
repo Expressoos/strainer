@@ -1,3 +1,5 @@
+var database = require('../../services/database')
+
 module.exports = function(router, fakeUsers){
 
 
@@ -24,31 +26,42 @@ module.exports = function(router, fakeUsers){
     router.post('/login', function(req, res){
       var msg = '';
 
-      if(req.body.email != 'undefined' && req.body.email != ''){
-
-      }
-
-      if (req.body.email == 'aa' && req.body.password == 'aa'){
+      if(typeof req.body.email !== 'undefined' && req.body.email !== ''){
 
         var email = req.body.email;
         var password = req.body.password;
 
-        /*var q = db.query("SELECT * FROM `users` WHERE `email`='" + req.params.email + "' AND `password`='" + req.params.password + "'");
-        if (q) {
-          // Set the sessions.
-          req.session.email = req.params.email;
-          req.session.password = req.params.password;
-        }*/
-        req.session.email = email;
-        req.session.password = password;
+        var connection = database.dbConnect();
 
-        res.redirect('/dashboard');
+        connection.connect(function(err) {
+            if (err) throw err
 
-      } else {
-        console.log('**** vide');
-      }
+            console.log('You are now connected...')
+            connection.query("SELECT * FROM `Users` WHERE `email`='" + email + "'", function(err, results) {
 
-      res.render('auth/login.ejs');
+                if (err) throw err
+
+                if (typeof results[0] !== 'undefined' ) {
+                    if (results[0].password === password) {
+                        // Set the sessions.
+                        req.session.email = email;
+                        req.session.password = password;
+
+                        res.redirect('/dashboard');
+                    }
+                    else {
+                        console.log("Erreur de mot de passe")
+                    }
+                } else {
+                    console.log('**** vide');
+                }
+
+                res.render('auth/login.ejs');
+            })
+          })
+        } else {
+            res.render('auth/login.ejs');
+        }
     });
 
     router.get('/logout', function(req, res){

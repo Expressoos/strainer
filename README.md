@@ -19,6 +19,11 @@ Database
 TIPS:
 
 	`make mysql` allow you to go through CLI on mysql.
+
+Default user:
+
+	john@doe.com : qjskdhqskjd
+
 Use squelize
 ============
 

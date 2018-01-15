@@ -32,7 +32,7 @@ database-all: db/create db/migrate db/seed
 
 database: db/create db/migrate db/seed
 
-db/%: | config/config.json
+db/%: db/create | config/config.json
 	node_modules/.bin/sequelize db:$* $(ARGS)
 
 migration/%:

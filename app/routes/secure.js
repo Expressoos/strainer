@@ -17,13 +17,30 @@ module.exports = function(router){
     res.redirect('/auth');
   });
 
-
-
   router.get('/dashboard', function(req, res){
 
     console.log(fakeData);
     res.render('secured/dashboard.ejs', {data: fakeData});
   });
+
+  router.get('/read/:id', function(req, res){
+    var id = req.params.id;
+
+    console.log(fakeData[id]);
+    res.render('secured/post/read.ejs', {data: fakeData[id]});
+  });
+
+  router.get('/modify/:id', function(req, res){
+    var id = request.params.id;
+
+    console.log(fakeData[id]);
+    res.render('secured/post/modify.ejs', {data: fakeData[id]});
+  });
+
+
+
+
+
 
   router.get('/*', function(req, res){
 

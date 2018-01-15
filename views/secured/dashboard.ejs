@@ -6,7 +6,29 @@
 </div>
 
 <table class="table table-hover">
-  <% for(var i=0; i< data.length; i++) {%>
-     <tr><%= data[i].title %></tr>
-  <% } %>
+  <tr>
+    <td with="50%">Title</td>
+    <td with="30%">Text</td>
+    <td>Action</td>
+  </tr>
+
+  <tr>
+    <td with="50%">
+      <%= data[1].title %>
+    </td>
+    <td with="30%">
+      <%= data[1].text %>
+    </td>
+    <td>
+      <!-- Contextual button for informational alert messages -->
+      <a href="/read/1" class="btn btn-info" role="button">Read</a>
+
+      <!-- Indicates caution should be taken with this action -->
+      <a href="" class="btn btn-warning" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+
+      <!-- Indicates a dangerous or potentially negative action -->
+      <a href="" class="btn btn-danger" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+    </td>
+  </tr>
+
 </table>

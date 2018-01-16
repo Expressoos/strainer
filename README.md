@@ -19,7 +19,7 @@ Database
 TIPS:
 
 	`make mysql` allow you to go through CLI on mysql.
-
+	
 Default user:
 
 	john@doe.com : qjskdhqskjd
@@ -27,9 +27,15 @@ Default user:
 Use squelize
 ============
 
-Package squelize, squelize-cli & mysql2 allow use to create model for express app.
+Default user:
 
-The file conf/config.json contain configuration for database and for squelize:
+	john@doe.com : qjskdhqskjd
+
+Use sequelize
+
+Package sequelize, sequelize-cli & mysql2 allow use to create model for express app.
+
+The file conf/config.json contain configuration for database and for sequelize:
 
 ```
 	make db/PREFIX:COMMAND ARGS="--name User"
@@ -49,6 +55,13 @@ After editing, we can play it by using
 
 ```
 	make db/migrate
+```
+
+Generate a model
+================
+
+```
+make model/generate ARGS="--name Article --attributes title:string,text:text"
 ```
 
 Install & start

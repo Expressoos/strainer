@@ -1,4 +1,7 @@
 'use strict';
+
+var article        = require('./article');
+
 module.exports = (sequelize, DataTypes) => {
 
   var User = sequelize.define('User', {
@@ -42,5 +45,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   });
 
+  User.hasMany(article, {as: 'Articles'})
   return User;
 };

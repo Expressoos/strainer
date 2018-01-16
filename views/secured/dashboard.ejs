@@ -5,26 +5,32 @@
   <a href="/auth/logout" class="btn btn-danger btn-sm">Logout</a>
 </div>
 
-<table class="table table-hover">
-  <tr>
-    <td with="50%">Title</td>
-    <td with="30%">Text</td>
-    <td>Action</td>
-  </tr>
+<div class="row">
+  <table class="table table-hover">
+    <tr>
+      <td with="50%">Title</td>
+      <td with="30%">Text</td>
+      <td>Action</td>
+    </tr>
 
-  <% data.forEach(function(post) { %>
-  <tr>
-    <td with="50%">
-      <%= post.title %>
-    </td>
-    <td with="30%">
-      <%= post.text %>
-    </td>
-    <td>
-      <a href="/read/<%= post.id %>" class="btn btn-info" role="button">Read</a>
-      <a href="/modify/<%= post.id %>" class="btn btn-warning" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
-      <a href="/delete/<%= post.id %>" class="btn btn-danger" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-    </td>
-  </tr>
-  <% }); %>
-</table>
+    <% data.forEach(function(post) { %>
+    <tr>
+      <td with="50%">
+        <%= post.title %>
+      </td>
+      <td with="30%">
+        <%= post.text %>
+      </td>
+      <td>
+        <a href="/read/<%= post.id %>" class="btn btn-info" role="button">Read</a>
+        <a href="/modify/<%= post.id %>" class="btn btn-warning" role="button"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+        <a href="/delete/<%= post.id %>" class="btn btn-danger" role="button"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+      </td>
+    </tr>
+    <% }); %>
+  </table>
+</div>
+
+<div class="row">
+  <a href="/add" class="btn btn-primary" role="button">Add a new post</a>
+</div>

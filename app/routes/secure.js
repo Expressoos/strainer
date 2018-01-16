@@ -20,8 +20,24 @@ module.exports = function(router){
 
   router.get('/dashboard', function(req, res){
 
-    console.log(fakeData);
-    res.render('secured/dashboard.ejs', {data: fakeData});
+  	var connection = database.dbConnect();
+
+    connection.connect(function(err) {
+        if (err) throw err
+
+        console.log('You are now connected...')
+        //connection.query("SELECT * FROM `Users` WHERE `email`='" + email + "'", function(err, results) {
+
+        var query = "SELECT * FROM `Articles`";
+        console.log(query);
+
+        connection.query(query, function(err, results) {
+        	if (err) throw err
+
+			res.render('secured/dashboard.ejs', {data: results});
+		});
+
+  	});
   });
 
   router.get('/read/:id', function(req, res){
@@ -49,48 +65,32 @@ module.exports = function(router){
 
   router.post('/add', function(req, res){
     console.log(req.body);
-    if(typeof req.body.email !== 'undefined' && req.body.email !== ''){
 
-      var title = req.body.title;
-      var text = req.body.text;
-      var userid = req.body.userid;
+	var title = req.body.title;
+	var text = req.body.text;
+	var userId = req.body.userId;
+       var createdAt = '2015-12-03';
+        var updatedAt = '2015-12-03';
 
-      /*var connection = database.dbConnect();
-      connection.connect(function(err) {
-          if (err) throw err
+	console.log(title)
+	console.log(text)
+	console.log(userId)
 
-          console.log('You are now connected...')
-          connection.query("SELECT * FROM `Users` WHERE `email`='" + email + "'", function(err, results) {
+	var connection = database.dbConnect();
 
-              if (err) throw err
+    connection.query("INSERT INTO Articles (title, text, createdAt, updatedAt, user_id) VALUES ('" + title + "','" + text + "','" + createdAt + "','" + updatedAt + "'," + userId + ")" , function(err, results) {
+		if (err) throw err
 
-              if (typeof results[0] !== 'undefined' ) {
-                  if (results[0].password === password) {
-                      //console.log(results[0]);
-                      // Set the sessions.
-                      req.session.id = results[0].id;
-                      req.session.email = email;
-                      req.session.password = password;
+		console.log(results)
 
-                      res.redirect('/dashboard');
-                  }
-                  else {
-                      console.log("Erreur de mot de passe")
-                  }
-              } else {
-                  console.log('**** vide');
-              }
+		if(results) {
+			res.redirect('/dashboard');
 
-              res.render('auth/login.ejs');
-          })
-        })*/
-
-      res.redirect('/dashboard');
-
-    } else {
-        res.render('secured/post/add.ejs');
-    }
-
+	    } else {
+	        res.render('secured/post/add.ejs');
+	    }    
+	});
+  		
   });
 
   router.get('/*', function(req, res){

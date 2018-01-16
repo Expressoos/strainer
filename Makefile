@@ -2,6 +2,7 @@ LOGIN    := root
 PASSWORD := root
 HOST := localhost
 DATABASE := database_development
+SEQUELIZE := node_modules/.bin/sequelize
 
 all: install start
 
@@ -39,13 +40,16 @@ ifneq ("$(wildcard config/config.json)","")
 endif
 
 db/%:
-	node_modules/.bin/sequelize db:$* $(ARGS)
+	$(SEQUELIZE) db:$* $(ARGS)
 
 seed/%:
-	node_modules/.bin/sequelize db:seed:$* $(ARGS)
+	$(SEQUELIZE) db:seed:$* $(ARGS)
 
 migration/%:
-	node_modules/.bin/sequelize migration:$* $(ARGS)
+	$(SEQUELIZE) migration:$* $(ARGS)
+
+model/%:
+	$(SEQUELIZE) model:$* $(ARGS)
 
 mysql:
 	sudo /usr/local/mysql/bin/mysql -u root -p

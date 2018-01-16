@@ -16,10 +16,10 @@
     <% data.forEach(function(post) { %>
     <tr>
       <td with="50%">
-        <%= post.title %>
+        <%- post.title %>
       </td>
       <td with="30%">
-        <%= post.text %>
+        <%- post.text %>
       </td>
       <td>
         <a href="/read/<%= post.id %>" class="btn btn-info" role="button">Read</a>

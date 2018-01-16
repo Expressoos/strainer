@@ -20,7 +20,7 @@ module.exports = function(router, fakeUsers){
           res.redirect('/dashboard');
       }
 
-      res.render('auth/login.ejs');
+      res.render('auth/login.ejs', {msg: ""});
     });
 
     router.post('/login', function(req, res){
@@ -32,35 +32,58 @@ module.exports = function(router, fakeUsers){
         var password = req.body.password;
 
         var connection = database.dbConnect();
-
         connection.connect(function(err) {
             if (err) throw err
 
             console.log('You are now connected...')
-            connection.query("SELECT * FROM `Users` WHERE `email`='" + email + "'", function(err, results) {
+            //connection.query("SELECT * FROM `Users` WHERE `email`='" + email + "'", function(err, results) {
 
-                if (err) throw err
+            var query = "SELECT * FROM `Users` WHERE `email`='" + email + "' AND `password`='" + password + "'";
+            console.log(query);
 
-                if (typeof results[0] !== 'undefined' ) {
-                    if (results[0].password === password) {
-                        // Set the sessions.
-                        req.session.email = email;
-                        req.session.password = password;
+            connection.query(query, function(err, results) {
+              console.log('***')
+              console.log(err)
+              console.log(results)
 
-                        res.redirect('/dashboard');
-                    }
-                    else {
-                        console.log("Erreur de mot de passe")
-                    }
+              if (typeof results[0] !== 'undefined' ) {
+                req.session.id = results[0].id;
+                req.session.email = email;
+                req.session.password = password;
+
+                res.redirect('/dashboard');
+              } else {
+                console.log("Erreur de mot de passe")
+                res.render('auth/login.ejs', {msg: "Erreur de connexion !"});
+              }
+
+              /* bloc avec secure
+
+              if (err) throw err
+              if (typeof results[0] !== 'undefined' ) {
+                      if (results[0].password === password) {
+                          //console.log(results[0]);
+                          // Set the sessions.
+                          req.session.id = results[0].id;
+                          req.session.email = email;
+                          req.session.password = password;
+
+                          res.redirect('/dashboard');
+                      }
+                      else {
+                          console.log("Erreur de mot de passe")
+                      }
                 } else {
-                    console.log('**** vide');
+                      console.log('**** vide');
                 }
 
-                res.render('auth/login.ejs');
+                */
+
+              res.render('auth/login.ejs', {msg: "Erreur de connexion !"});
             })
           })
         } else {
-            res.render('auth/login.ejs');
+            res.render('auth/login.ejs', {msg: "email or password"});
         }
     });
 

@@ -1,0 +1,24 @@
+<% layout('../../layout') %>
+
+<div class="page-header text-center">
+  <h1>Add a new post</h1>
+  <a href="/auth/dashboard" class="btn btn-default btn-sm"><span class="fa fa-tachometer"></span> Back to Dashboard</a>
+</div>
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <form class="form-add-post" action="/add" method="post">
+            <h2 class="form-signin-heading"><span class="fa fa-sign-in"></span> Type here</h2>
+
+            <input name="email" type="hidden" class="form-control" value="<%= userid %>">
+
+            <label for="inputTitle" class="sr-only">Title</label>
+            <input name="title" type="text" id="inputTitle" class="form-control" placeholder="Add a title" autofocus>
+
+            <label for="inputText" class="sr-only">Text</label>
+            <input name="text" type="text" id="inputText" class="form-control" placeholder="Add some text">
+            <br />
+            <button class="btn btn-block btn-success" type="submit">Add</button>
+        </form>
+    </div>
+</div>

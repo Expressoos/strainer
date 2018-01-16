@@ -48,8 +48,10 @@ module.exports = function(router, fakeUsers){
 
               if (typeof results[0] !== 'undefined' ) {
                 req.session.id = results[0].id;
-                req.session.email = email;
-                req.session.password = password;
+                req.session.email = results[0].email;
+                req.session.password = results[0].password;
+                req.session.first_name = results[0].first_name;
+                req.session.last_name = results[0].last_name;
 
                 res.redirect('/dashboard');
               } else {

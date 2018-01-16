@@ -34,7 +34,8 @@ module.exports = function(router){
         connection.query(query, function(err, results) {
         	if (err) throw err
 
-			res.render('secured/dashboard.ejs', {data: results});
+			res.render('secured/dashboard.ejs', {data: results, first_name: req.session.first_name, last_name: req.session.last_name});
+
 		});
 
   	});
@@ -88,9 +89,9 @@ module.exports = function(router){
 
 	    } else {
 	        res.render('secured/post/add.ejs');
-	    }    
+	    }
 	});
-  		
+
   });
 
   router.get('/*', function(req, res){
